@@ -1,5 +1,4 @@
 'use client';
-import { useEffect } from 'react';
 import { I18nProvider } from '@/lib/i18n';
 import Navbar from './Navbar';
 import Hero from './Hero';
@@ -14,25 +13,10 @@ import Footer from './Footer';
 import WhatsAppFab from './WhatsAppFab';
 import styles from './VillaLanding.module.css';
 
-export type Theme = 'mediterranean' | 'coastal' | 'dark';
-
-/** Body background per theme — keeps overscroll/edges on-theme. */
-const BODY_BG: Record<Theme, string> = {
-  mediterranean: '#fbf8f2',
-  coastal: '#ffffff',
-  dark: '#1a1714',
-};
-
-export default function VillaLanding({ theme }: { theme: Theme }) {
-  useEffect(() => {
-    const prev = document.body.style.background;
-    document.body.style.background = BODY_BG[theme];
-    return () => { document.body.style.background = prev; };
-  }, [theme]);
-
+export default function VillaLanding() {
   return (
     <I18nProvider>
-      <div className={`v2-root v2-theme-${theme}`}>
+      <div className="v2-root">
         <Navbar />
         <main>
           <Hero />

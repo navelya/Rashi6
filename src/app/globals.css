@@ -1,67 +1,13 @@
 /* ============================================================
-   RASHI6 VILLA — Global Design System
+   RASHI6 VILLA — Global stylesheet
+   Single theme: Soft Coastal. Tokens live on .v2-root; the whole
+   landing page is wrapped in that element.
    ============================================================ */
 
-:root {
-  /* Color Palette */
-  --bg-primary: #06080f;
-  --bg-secondary: #0c1120;
-  --bg-card: #111827;
-  --bg-card-hover: #1a2440;
-
-  --blue-vivid: #2563eb;
-  --blue-light: #3b82f6;
-  --blue-glow: rgba(37, 99, 235, 0.25);
-  --blue-subtle: rgba(59, 130, 246, 0.08);
-
-  --gold: #c9a84c;
-  --gold-light: #e4c97e;
-  --gold-subtle: rgba(201, 168, 76, 0.12);
-
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #475569;
-
-  --border: rgba(255, 255, 255, 0.07);
-  --border-blue: rgba(37, 99, 235, 0.3);
-
-  --glass-bg: rgba(255, 255, 255, 0.04);
-  --glass-border: rgba(255, 255, 255, 0.08);
-
-  /* Gradients */
-  --gradient-hero: linear-gradient(135deg, #06080f 0%, #0d1b3e 50%, #06080f 100%);
-  --gradient-blue: linear-gradient(135deg, #1d4ed8, #2563eb);
-  --gradient-gold: linear-gradient(135deg, #c9a84c, #e4c97e);
-  --gradient-text: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%);
-  --gradient-card: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01));
-
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 16px 64px rgba(0, 0, 0, 0.6);
-  --shadow-blue: 0 8px 32px rgba(37, 99, 235, 0.3);
-  --shadow-gold: 0 8px 32px rgba(201, 168, 76, 0.25);
-
-  /* Spacing & Radii */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
-  --radius-full: 9999px;
-
-  /* Transitions */
-  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* Typography */
-  --font-heading: 'Playfair Display', 'Heebo', serif;
-  --font-body: 'Heebo', 'Inter', sans-serif;
-}
-
-/* ============================================================
-   RESET & BASE
-   ============================================================ */
-*, *::before, *::after {
+/* ---- Document reset ---- */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -73,280 +19,194 @@ html {
 }
 
 body {
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: var(--font-body);
-  line-height: 1.6;
-  overflow-x: hidden;
+  background: #ffffff;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
-/* RTL-aware text alignment */
-[dir="rtl"] {
-  font-family: 'Heebo', sans-serif;
-}
-
-[dir="ltr"] {
-  font-family: 'Inter', 'Playfair Display', sans-serif;
-}
-
-a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
-button { cursor: pointer; border: none; background: none; font-family: inherit; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
 ul { list-style: none; }
 
-/* ============================================================
-   SCROLLBAR
-   ============================================================ */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--blue-vivid); border-radius: 3px; }
+::-webkit-scrollbar { width: 9px; }
+::-webkit-scrollbar-track { background: #eef3f6; }
+::-webkit-scrollbar-thumb { background: #2e6fa8; border-radius: 5px; }
 
 /* ============================================================
-   TYPOGRAPHY UTILITIES
+   THEME + ROOT  (Soft Coastal)
    ============================================================ */
-.section-label {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1rem;
+.v2-root {
+  /* palette */
+  --bg: #ffffff;
+  --bg-soft: #f1f5f8;
+  --surface: #ffffff;
+  --surface-2: #f6f9fb;
+  --text: #16202b;
+  --text-soft: #5a6573;
+  --text-mute: #95a0ad;
+  --border: rgba(22, 32, 43, 0.10);
+  --border-strong: rgba(22, 32, 43, 0.18);
+  --accent: #2e6fa8;
+  --accent-strong: #245c8c;
+  --accent-soft: rgba(46, 111, 168, 0.09);
+  --accent-2: #b89a6d;
+  --accent-2-soft: rgba(184, 154, 109, 0.16);
+  --on-accent: #ffffff;
+  --gold: #b89a6d;
+
+  --shadow-sm: 0 2px 12px rgba(22, 32, 43, 0.06);
+  --shadow-md: 0 14px 40px rgba(22, 32, 43, 0.10);
+  --shadow-lg: 0 30px 70px rgba(22, 32, 43, 0.15);
+
+  --hero-overlay: linear-gradient(180deg, rgba(12,22,33,0.10) 0%, rgba(12,22,33,0.22) 45%, rgba(12,22,33,0.74) 100%);
+
+  /* Rubik + Assistant both ship Latin, Latin-ext and Hebrew subsets */
+  --font-display: 'Rubik', sans-serif;
+  --font-body: 'Assistant', sans-serif;
+
+  /* light-grey logo wordmark → near-black once the navbar is solid */
+  --logo-filter-solid: brightness(0) opacity(0.82);
+
+  /* metrics */
+  --maxw: 1180px;
+  --radius: 18px;
+  --radius-lg: 28px;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.65;
+  min-height: 100dvh;
+  overflow-x: hidden;
 }
 
-.section-title {
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  line-height: 1.2;
-  background: var(--gradient-text);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 1rem;
+.v2-root *,
+.v2-root *::before,
+.v2-root *::after {
+  box-sizing: border-box;
 }
 
-.section-subtitle {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  max-width: 600px;
-}
+.v2-root img { max-width: 100%; display: block; }
+.v2-root button { font-family: inherit; cursor: pointer; }
+.v2-root ul { list-style: none; margin: 0; padding: 0; }
+.v2-root a { color: inherit; text-decoration: none; }
+.v2-root h1, .v2-root h2, .v2-root h3, .v2-root h4 { margin: 0; }
+.v2-root p { margin: 0; }
 
-[dir="rtl"] .section-subtitle {
-  font-weight: 300;
-}
+.v2-display { font-family: var(--font-display); font-weight: 600; }
 
 /* ============================================================
-   LAYOUT
+   SHARED LAYOUT
    ============================================================ */
-.container {
+.v2-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: var(--maxw);
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 20px;
 }
 
-.section {
-  padding: 6rem 0;
-  position: relative;
+.v2-section { padding: 72px 0; position: relative; }
+
+.v2-root section { scroll-margin-top: 78px; }
+
+@media (min-width: 768px) {
+  .v2-section { padding: 110px 0; }
+  .v2-container { padding: 0 32px; }
 }
 
-/* ============================================================
-   BUTTONS
-   ============================================================ */
-.btn-primary {
+.v2-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.9rem 2rem;
-  background: var(--gradient-blue);
-  color: #fff;
-  font-size: 1rem;
+  gap: 8px;
+  font-size: 12px;
   font-weight: 600;
-  border-radius: var(--radius-full);
-  box-shadow: var(--shadow-blue);
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
-  white-space: nowrap;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
-
-.btn-primary::before {
+.v2-eyebrow::before {
   content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.1);
-  opacity: 0;
-  transition: var(--transition);
+  width: 22px;
+  height: 1.5px;
+  background: var(--accent);
+  display: inline-block;
 }
 
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.5);
+.v2-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 6vw, 3rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-top: 14px;
 }
 
-.btn-primary:hover::before { opacity: 1; }
+.v2-sub {
+  font-size: 1.02rem;
+  color: var(--text-soft);
+  margin-top: 14px;
+  max-width: 540px;
+}
 
-.btn-whatsapp {
+/* ============================================================
+   SHARED BUTTONS
+   ============================================================ */
+.v2-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.9rem 2rem;
-  background: linear-gradient(135deg, #25D366, #128C7E);
-  color: #fff;
-  font-size: 1rem;
+  justify-content: center;
+  gap: 9px;
+  padding: 15px 26px;
+  font-size: 0.97rem;
   font-weight: 600;
-  border-radius: var(--radius-full);
-  box-shadow: 0 8px 32px rgba(37, 211, 102, 0.35);
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
+  border: none;
+  border-radius: 999px;
+  min-height: 52px;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.25s var(--ease);
   white-space: nowrap;
 }
-
-.btn-whatsapp:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(37, 211, 102, 0.5);
+.v2-btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: var(--shadow-md);
 }
-
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.2rem;
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
-  font-size: 0.875rem;
-  font-weight: 500;
-  border-radius: var(--radius-full);
-  transition: var(--transition);
+.v2-btn-primary:hover { background: var(--accent-strong); transform: translateY(-2px); }
+.v2-btn-wa {
+  background: #25d366;
+  color: #07261a;
+  box-shadow: 0 14px 36px rgba(37, 211, 102, 0.32);
 }
-
-.btn-ghost:hover {
-  border-color: var(--blue-light);
-  color: var(--text-primary);
-  background: var(--blue-subtle);
+.v2-btn-wa:hover { background: #20c25c; transform: translateY(-2px); }
+.v2-btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--border-strong);
 }
+.v2-btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
-/* ============================================================
-   GLASS CARD
-   ============================================================ */
-.glass-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: var(--transition);
-}
-
-.glass-card:hover {
-  background: rgba(255,255,255,0.06);
-  border-color: var(--border-blue);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-blue);
-}
-
-/* ============================================================
-   GRADIENT ORBS (background decorations)
-   ============================================================ */
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.orb-blue {
-  background: radial-gradient(circle, rgba(37, 99, 235, 0.25), transparent 70%);
-}
-
-.orb-gold {
-  background: radial-gradient(circle, rgba(201, 168, 76, 0.15), transparent 70%);
-}
-
-/* ============================================================
-   DIVIDER
-   ============================================================ */
-.section-divider {
-  width: 60px;
-  height: 3px;
-  background: var(--gradient-blue);
-  border-radius: var(--radius-full);
-  margin: 1.5rem 0;
-}
-
-[dir="rtl"] .section-divider {
-  margin-right: 0;
-}
-
-/* ============================================================
-   STAR RATING
-   ============================================================ */
-.stars {
-  display: flex;
-  gap: 0.2rem;
-  color: var(--gold);
-  font-size: 1rem;
-}
-
-/* ============================================================
-   ANIMATIONS
-   ============================================================ */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+@media (prefers-reduced-motion: reduce) {
+  .v2-root *, .v2-root *::before, .v2-root *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-@keyframes pulse-ring {
-  0% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(1.4); opacity: 0; }
-}
-
-@keyframes scrollBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
-}
-
-.animate-fadeInUp {
-  animation: fadeInUp 0.8s ease forwards;
-}
-
-.animate-float {
-  animation: float 4s ease-in-out infinite;
-}
-
 /* ============================================================
-   RESPONSIVE HELPERS
+   SCROLL REVEAL
    ============================================================ */
-@media (max-width: 768px) {
-  .section { padding: 4rem 0; }
-  .section-title { font-size: 1.8rem; }
+.v2-reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
 }
-
-@media (max-width: 480px) {
-  .container { padding: 0 1rem; }
+.v2-reveal[data-reveal="in"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .v2-reveal { opacity: 1; transform: none; }
 }
