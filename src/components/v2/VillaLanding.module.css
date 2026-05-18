@@ -1,0 +1,14 @@
+.bookingZone {
+  position: relative;
+  z-index: 5;
+  margin-top: -64px;
+  scroll-margin-top: 86px;
+}
+@media (min-width: 768px) {
+  .bookingZone { margin-top: -92px; }
+}
+
+.bookingInner {
+  max-width: 760px;
+  margin: 0 auto;
+}

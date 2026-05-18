@@ -1,0 +1,103 @@
+.features {
+  position: relative;
+  overflow: hidden;
+}
+
+.orb1 {
+  width: 600px;
+  height: 600px;
+  top: -200px;
+  right: -200px;
+  opacity: 0.4;
+}
+
+.orb2 {
+  width: 400px;
+  height: 400px;
+  bottom: -100px;
+  left: -100px;
+  opacity: 0.3;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  cursor: default;
+  animation: fadeInUp 0.6s ease both;
+}
+
+.iconWrap {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.icon {
+  font-size: 2rem;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+  transition: transform var(--transition);
+}
+
+.card:hover .icon {
+  transform: scale(1.15) rotate(-5deg);
+}
+
+.iconGlow {
+  position: absolute;
+  inset: 0;
+  background: var(--blue-subtle);
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+.card:hover .iconGlow {
+  background: var(--blue-glow);
+  transform: scale(1.3);
+}
+
+.cardTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.cardDesc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .card { padding: 1.25rem; }
+  .iconWrap { width: 44px; height: 44px; }
+  .icon { font-size: 1.6rem; }
+}
+
+@media (max-width: 380px) {
+  .grid { grid-template-columns: 1fr; }
+}

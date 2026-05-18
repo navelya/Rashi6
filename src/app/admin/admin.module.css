@@ -1,0 +1,343 @@
+/* ============================================================
+   Rashi6 Content Admin — standalone styling (light, functional)
+   ============================================================ */
+
+.loginWrap,
+.shell {
+  min-height: 100dvh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #1c2330;
+}
+
+/* ---- Shared controls ---- */
+.btnPrimary {
+  padding: 11px 22px;
+  border-radius: 9px;
+  background: #1f6f6b;
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: background 0.18s ease, opacity 0.18s ease;
+}
+.btnPrimary:hover { background: #185854; }
+.btnPrimary:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btnGhost {
+  padding: 11px 18px;
+  border-radius: 9px;
+  border: 1px solid #d3d8e0;
+  background: #fff;
+  color: #4a5260;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: border-color 0.18s ease, color 0.18s ease;
+}
+.btnGhost:hover { border-color: #1f6f6b; color: #1f6f6b; }
+
+/* ============================================================
+   LOGIN
+   ============================================================ */
+.loginWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.loginCard {
+  width: 100%;
+  max-width: 380px;
+  background: #fff;
+  border: 1px solid #e3e6ec;
+  border-radius: 16px;
+  box-shadow: 0 18px 48px rgba(28, 35, 48, 0.12);
+  padding: 36px 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.loginBrand {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #1f6f6b;
+}
+.loginTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.loginSub {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-top: 6px;
+  margin-bottom: 22px;
+}
+
+.warn {
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: #8a5a00;
+  background: #fff5e0;
+  border: 1px solid #f0d79a;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+}
+.warn code {
+  font-size: 0.8rem;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.err {
+  font-size: 0.84rem;
+  color: #c0392b;
+  margin-top: 10px;
+}
+
+/* ============================================================
+   EDITOR
+   ============================================================ */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px 20px;
+  background: #fff;
+  border-bottom: 1px solid #e3e6ec;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.95rem;
+  color: #4a5260;
+}
+.brand strong {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1f6f6b;
+}
+
+.badgeGh,
+.badgeLocal {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 999px;
+}
+.badgeGh { background: #e3f3ec; color: #1f7a4d; }
+.badgeLocal { background: #fdeede; color: #9a6212; }
+
+.actions { display: flex; gap: 10px; }
+
+.body {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 24px 18px 80px;
+}
+
+.hint {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: #6b7280;
+  background: #fff;
+  border: 1px solid #e3e6ec;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+}
+
+.msgOk,
+.msgErr {
+  font-size: 0.88rem;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin-bottom: 18px;
+}
+.msgOk { background: #e3f3ec; color: #1f7a4d; border: 1px solid #b5e0c8; }
+.msgErr { background: #fdecea; color: #c0392b; border: 1px solid #f3c0ba; }
+
+/* ---- Language tabs ---- */
+.tabs {
+  display: flex;
+  gap: 6px;
+  background: #e4e7ec;
+  padding: 5px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+.tab {
+  flex: 1;
+  padding: 9px 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #5a6270;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.tabOn { background: #fff; color: #1f6f6b; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08); }
+
+/* ---- Panels ---- */
+.panel {
+  background: #fff;
+  border: 1px solid #e3e6ec;
+  border-radius: 14px;
+  padding: 22px 20px;
+  margin-bottom: 20px;
+}
+
+.panelTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #1c2330;
+}
+
+.metaGrid {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+@media (min-width: 620px) {
+  .metaGrid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---- Fields ---- */
+.field,
+.fieldSm {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.fieldSm { max-width: 130px; }
+
+.field span,
+.fieldSm span {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #8b93a1;
+}
+
+.field input,
+.fieldSm input,
+.fieldSm select,
+.field textarea,
+.field select {
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: #1c2330;
+  background: #f7f8fa;
+  border: 1.5px solid #dde1e8;
+  border-radius: 9px;
+  padding: 10px 12px;
+  width: 100%;
+  transition: border-color 0.16s ease, background 0.16s ease;
+}
+.field textarea { resize: vertical; line-height: 1.55; }
+.field input:focus,
+.fieldSm input:focus,
+.fieldSm select:focus,
+.field textarea:focus,
+.field select:focus {
+  outline: none;
+  border-color: #1f6f6b;
+  background: #fff;
+}
+
+.rowTwo {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.rowTwo .field { flex: 1; min-width: 180px; }
+
+/* ---- Items ---- */
+.item {
+  border: 1px solid #e7eaef;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  background: #fafbfc;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.itemHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.itemNum {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #8b93a1;
+}
+.itemCtrls { display: flex; gap: 6px; }
+.itemCtrls button {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #d8dce3;
+  background: #fff;
+  color: #4a5260;
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+}
+.itemCtrls button:hover:not(:disabled) { border-color: #1f6f6b; color: #1f6f6b; }
+.itemCtrls button:disabled { opacity: 0.4; cursor: not-allowed; }
+.itemCtrls .del {
+  width: auto;
+  padding: 0 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #c0392b;
+}
+.itemCtrls .del:hover { border-color: #c0392b; color: #c0392b; }
+
+.addBtn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1.5px dashed #c4cad3;
+  background: #fff;
+  color: #1f6f6b;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: border-color 0.16s ease, background 0.16s ease;
+}
+.addBtn:hover { border-color: #1f6f6b; background: #f3f9f8; }
+
+.saveBar {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.input {
+  font-family: inherit;
+  font-size: 0.98rem;
+  color: #1c2330;
+  background: #f7f8fa;
+  border: 1.5px solid #dde1e8;
+  border-radius: 10px;
+  padding: 12px 14px;
+  width: 100%;
+}
+.input:focus { outline: none; border-color: #1f6f6b; background: #fff; }

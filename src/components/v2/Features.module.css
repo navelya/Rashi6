@@ -1,0 +1,53 @@
+.features { background: var(--bg); }
+
+.head { margin-bottom: 40px; }
+@media (min-width: 768px) { .head { margin-bottom: 56px; } }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 620px) { .grid { gap: 16px; } }
+@media (min-width: 960px) {
+  .grid { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 18px;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease),
+    border-color 0.35s var(--ease), opacity 0.7s var(--ease);
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent-soft);
+}
+@media (min-width: 768px) { .card { padding: 28px 24px; } }
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.cardTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cardDesc {
+  margin-top: 7px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-soft);
+}

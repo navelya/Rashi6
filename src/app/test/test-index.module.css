@@ -1,0 +1,143 @@
+.page {
+  position: relative;
+  min-height: 100dvh;
+  background: #15140f;
+  color: #f2ebe0;
+  font-family: 'Assistant', sans-serif;
+  padding: 64px 22px 80px;
+  overflow: hidden;
+}
+
+.glow {
+  position: absolute;
+  top: -180px;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(201, 168, 106, 0.22), transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.head {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c9a86a;
+}
+
+.title {
+  margin-top: 16px;
+  font-family: 'Rubik', sans-serif;
+  font-size: clamp(2rem, 6vw, 3.1rem);
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  line-height: 1.14;
+}
+
+.lead {
+  margin-top: 16px;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: #b7ad9d;
+}
+
+.grid {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 720px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: #211d18;
+  border: 1px solid rgba(242, 235, 224, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(201, 168, 106, 0.5);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+.preview {
+  position: relative;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.previewName { font-size: 1.7rem; font-weight: 700; }
+.previewBar {
+  position: absolute;
+  bottom: 22px;
+  inset-inline-start: 22px;
+  width: 64px;
+  height: 8px;
+  border-radius: 999px;
+}
+.previewChip {
+  position: absolute;
+  top: 22px;
+  inset-inline-end: 22px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+}
+
+.body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
+
+.cardName { font-size: 1.2rem; font-weight: 600; }
+.cardDesc {
+  margin-top: 8px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: #b7ad9d;
+  flex: 1;
+}
+
+.swatches { display: flex; gap: 7px; margin-top: 16px; }
+.dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(242, 235, 224, 0.18);
+}
+
+.view {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 18px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #c9a86a;
+}
+[dir="rtl"] .view svg { transform: scaleX(-1); }
+
+.note {
+  position: relative;
+  text-align: center;
+  margin: 44px auto 0;
+  max-width: 640px;
+  font-size: 0.84rem;
+  color: #8a8073;
+}

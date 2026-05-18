@@ -1,0 +1,197 @@
+{
+  "heroStats": {
+    "bedrooms": "Bedrooms",
+    "floors": "Floors",
+    "jacuzzi": "Jacuzzi",
+    "garden": "Private Garden"
+  },
+  "labels": {
+    "avgRating": "Average guest rating",
+    "superhost": "Superhost",
+    "verifiedGuest": "Verified guest",
+    "quickReply": "Quick replies",
+    "noFees": "No middleman fees",
+    "directPrice": "Direct owner price",
+    "navTitle": "Navigation"
+  },
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "gallery": "Gallery",
+    "location": "Location",
+    "reviews": "Reviews",
+    "faq": "FAQ",
+    "contact": "Contact"
+  },
+  "hero": {
+    "subtitle": "Netanya, Israel",
+    "title": "Your Private Luxury Escape",
+    "desc": "A stunning villa with a private jacuzzi, garden, and 4 bedrooms — all to yourself",
+    "cta": "Message us on WhatsApp",
+    "scroll": "Scroll down"
+  },
+  "features": {
+    "title": "What Awaits You",
+    "subtitle": "Everything you need for a perfect getaway",
+    "items": [
+      {
+        "icon": "🛁",
+        "title": "Private Jacuzzi",
+        "desc": "A luxurious jacuzzi for your exclusive use"
+      },
+      {
+        "icon": "🛏️",
+        "title": "4 Bedrooms",
+        "desc": "Spacious, well-appointed rooms for family or groups"
+      },
+      {
+        "icon": "🔒",
+        "title": "Full Privacy",
+        "desc": "Completely private property, no neighbors in sight"
+      },
+      {
+        "icon": "🏡",
+        "title": "2 Floors",
+        "desc": "Impressive two-story villa with plenty of space"
+      },
+      {
+        "icon": "🌿",
+        "title": "Private Garden",
+        "desc": "A lush, shaded garden for outdoor relaxation"
+      },
+      {
+        "icon": "📍",
+        "title": "Netanya",
+        "desc": "The charming coastal city with beaches, markets and restaurants"
+      },
+      {
+        "icon": "🌊",
+        "title": "Near the Sea",
+        "desc": "Just minutes away from the Mediterranean coast"
+      },
+      {
+        "icon": "🍽️",
+        "title": "Fully Equipped Kitchen",
+        "desc": "A complete kitchen for cooking and hosting"
+      }
+    ]
+  },
+  "gallery": {
+    "title": "A Glimpse Inside",
+    "subtitle": "Because a picture is worth a thousand words"
+  },
+  "location": {
+    "title": "Where We Are",
+    "subtitle": "Heart of Netanya, Gateway to the Mediterranean",
+    "desc": "Netanya is one of Israel's most sought-after coastal cities. The villa is perfectly located — close to the sea, restaurants, shopping centers and everything Netanya has to offer.",
+    "highlights": [
+      {
+        "icon": "🏖️",
+        "label": "Beach",
+        "value": "5 min"
+      },
+      {
+        "icon": "🛒",
+        "label": "Mall",
+        "value": "10 min"
+      },
+      {
+        "icon": "✈️",
+        "label": "Airport",
+        "value": "30 min"
+      },
+      {
+        "icon": "🚂",
+        "label": "Train Station",
+        "value": "15 min"
+      }
+    ]
+  },
+  "reviews": {
+    "title": "What Our Guests Say",
+    "subtitle": "Real experiences from satisfied guests",
+    "items": [
+      {
+        "name": "Michal L.",
+        "rating": 5,
+        "text": "An amazing villa! The jacuzzi was a dream, the garden is huge and private. The best family vacation we've had. We'll definitely be back!"
+      },
+      {
+        "name": "David A.",
+        "rating": 5,
+        "text": "A top-tier luxury property. The 4 bedrooms comfortably fit the whole extended family. Great location, close to the beach."
+      },
+      {
+        "name": "Nathalie B.",
+        "rating": 5,
+        "text": "A magnificent villa with a private jacuzzi and large garden. We loved every moment. We'll be back!"
+      },
+      {
+        "name": "Rachel V.",
+        "rating": 5,
+        "text": "Quiet, private and comfortable. The villa is large, beautiful and well-equipped. Highly recommend!"
+      }
+    ]
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you want to know before you arrive",
+    "items": [
+      {
+        "q": "What are the check-in and check-out times?",
+        "a": "Check-in is from 3:00 PM and check-out is until 11:00 AM. Flexible times can be arranged subject to availability."
+      },
+      {
+        "q": "How many guests can stay at the villa?",
+        "a": "The villa comfortably hosts up to 8 guests across 4 spacious bedrooms."
+      },
+      {
+        "q": "Is there parking at the property?",
+        "a": "Yes, free private parking is available on site."
+      },
+      {
+        "q": "How do I book the villa?",
+        "a": "Pick your dates in the availability form and send us a WhatsApp message — we'll reply with confirmation and payment details."
+      },
+      {
+        "q": "How far is the beach?",
+        "a": "The beach is about a 5-minute drive from the villa."
+      },
+      {
+        "q": "Can I host events at the villa?",
+        "a": "Yes, the villa is also suitable for small private events. Contact us on WhatsApp to arrange the details."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready for a Vacation to Remember?",
+    "desc": "Contact us now on WhatsApp to check dates and availability",
+    "btn": "Send a WhatsApp Message"
+  },
+  "footer": {
+    "tagline": "Luxury Villa in Netanya",
+    "rights": "All rights reserved"
+  },
+  "booking": {
+    "label": "Direct booking",
+    "title": "Check Availability",
+    "subtitle": "Pick your dates and send us a message — we'll reply right away on WhatsApp",
+    "checkin": "Check-in",
+    "checkout": "Check-out",
+    "guests": "Guests",
+    "name": "Full name",
+    "namePlaceholder": "Your name",
+    "selectDates": "Select your dates",
+    "addCheckout": "Pick a check-out date",
+    "night": "night",
+    "nights": "nights",
+    "checkBtn": "Check availability on WhatsApp",
+    "clear": "Clear",
+    "errDates": "Please select check-in and check-out dates",
+    "errName": "Please enter your name",
+    "waTemplate": "Hello! I'm {name} 👋\nI'd like to check availability at Rashi6 Villa in Netanya:\n📅 Check-in: {checkin}\n📅 Check-out: {checkout}\n🌙 {nights}\n👥 {guests} guests\nThank you!"
+  },
+  "whatsapp": {
+    "message": "Hello! I saw the Rashi6 Villa in Netanya and I'd love to get more details and check availability 🏡✨"
+  }
+}
