@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { isAuthed } from '@/lib/adminAuth';
-import { readEditable } from '@/lib/contentStore';
+import { readFaq, readReviews, readGallery } from '@/lib/contentStore';
 import AdminLogin from './AdminLogin';
 import AdminEditor from './AdminEditor';
 
@@ -17,9 +17,15 @@ export default async function AdminPage() {
     return <AdminLogin configured={!!process.env.ADMIN_PASSWORD} />;
   }
 
-  const content = readEditable();
   const mode: 'github' | 'local' =
     process.env.GITHUB_TOKEN && process.env.GITHUB_REPO ? 'github' : 'local';
 
-  return <AdminEditor initialContent={content} mode={mode} />;
+  return (
+    <AdminEditor
+      faq={readFaq()}
+      reviews={readReviews()}
+      gallery={readGallery()}
+      mode={mode}
+    />
+  );
 }

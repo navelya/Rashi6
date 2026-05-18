@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import type { EditablePayload, LocaleCode } from '@/lib/contentStore';
+import type { FaqPayload, LocaleCode, ReviewItem } from '@/lib/contentStore';
 import styles from './admin.module.css';
 
 const LANGS: { code: LocaleCode; label: string }[] = [
@@ -9,21 +9,36 @@ const LANGS: { code: LocaleCode; label: string }[] = [
   { code: 'fr', label: 'Français' },
 ];
 const CODES: LocaleCode[] = ['he', 'en', 'fr'];
+const MAX_IMAGE_PX = 2000;
 
-type Section = 'reviews' | 'faq';
-type Msg = { type: 'ok' | 'err'; text: string };
+type Tab = 'qa' | 'reviews' | 'gallery';
+type Msg = { type: 'ok' | 'err'; text: string } | null;
 
 export default function AdminEditor({
-  initialContent,
+  faq: initialFaq,
+  reviews: initialReviews,
+  gallery: initialGallery,
   mode,
 }: {
-  initialContent: EditablePayload;
+  faq: FaqPayload;
+  reviews: ReviewItem[];
+  gallery: string[];
   mode: 'github' | 'local';
 }) {
-  const [content, setContent] = useState<EditablePayload>(initialContent);
-  const [lang, setLang] = useState<LocaleCode>('he');
-  const [busy, setBusy] = useState(false);
-  const [msg, setMsg] = useState<Msg | null>(null);
+  const [tab, setTab] = useState<Tab>('qa');
+
+  const [faq, setFaq] = useState<FaqPayload>(initialFaq);
+  const [faqLang, setFaqLang] = useState<LocaleCode>('he');
+  const [faqBusy, setFaqBusy] = useState(false);
+  const [faqMsg, setFaqMsg] = useState<Msg>(null);
+
+  const [reviews, setReviews] = useState<ReviewItem[]>(initialReviews);
+  const [revBusy, setRevBusy] = useState(false);
+  const [revMsg, setRevMsg] = useState<Msg>(null);
+
+  const [gallery, setGallery] = useState<string[]>(initialGallery);
+  const [galBusy, setGalBusy] = useState(false);
+  const [galMsg, setGalMsg] = useState<Msg>(null);
 
   useEffect(() => {
     const prev = document.body.style.background;
@@ -31,75 +46,135 @@ export default function AdminEditor({
     return () => { document.body.style.background = prev; };
   }, []);
 
-  const cur = content[lang];
-  const dir = lang === 'he' ? 'rtl' : 'ltr';
-
-  /** Apply a mutation to a fresh clone of the content tree. */
-  function update(mutate: (draft: EditablePayload) => void) {
-    setContent((prev) => {
-      const next = structuredClone(prev);
-      mutate(next);
-      return next;
-    });
-    setMsg(null);
-  }
-
-  /* Structural edits apply to ALL languages so the lists stay parallel. */
-  function addItem(section: Section) {
-    update((d) => {
-      CODES.forEach((c) => {
-        if (section === 'reviews') d[c].reviews.items.push({ name: '', rating: 5, text: '' });
-        else d[c].faq.items.push({ q: '', a: '' });
-      });
-    });
-  }
-  function removeItem(section: Section, idx: number) {
-    update((d) => CODES.forEach((c) => d[c][section].items.splice(idx, 1)));
-  }
-  function moveItem(section: Section, idx: number, delta: number) {
-    update((d) =>
-      CODES.forEach((c) => {
-        const arr = d[c][section].items as unknown[];
-        const j = idx + delta;
-        if (j < 0 || j >= arr.length) return;
-        [arr[idx], arr[j]] = [arr[j], arr[idx]];
-      })
-    );
-  }
-
-  async function save() {
-    setBusy(true);
-    setMsg(null);
-    try {
-      const res = await fetch('/api/admin/save', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setMsg({ type: 'err', text: data.error || 'Save failed.' });
-      } else if (data.mode === 'github') {
-        setMsg({
-          type: 'ok',
-          text: 'Saved and committed to GitHub. Vercel will redeploy in about a minute.',
-        });
-      } else {
-        setMsg({
-          type: 'ok',
-          text: 'Saved to local files. Commit & push (or restart dev) to see it deployed.',
-        });
-      }
-    } catch {
-      setMsg({ type: 'err', text: 'Network error — changes were not saved.' });
-    }
-    setBusy(false);
+  function okText(saveMode: string, what: string) {
+    return saveMode === 'github'
+      ? `${what} Committed to GitHub — Vercel will redeploy in about a minute.`
+      : `${what} Saved to local files.`;
   }
 
   async function logout() {
     await fetch('/api/admin/logout', { method: 'POST' });
     window.location.reload();
   }
+
+  /* ── FAQ ─────────────────────────────────────────────────── */
+  function updateFaq(mutate: (d: FaqPayload) => void) {
+    setFaq((prev) => {
+      const next = structuredClone(prev);
+      mutate(next);
+      return next;
+    });
+    setFaqMsg(null);
+  }
+  function addFaqItem() {
+    updateFaq((d) => CODES.forEach((c) => d[c].items.push({ q: '', a: '' })));
+  }
+  function removeFaqItem(idx: number) {
+    updateFaq((d) => CODES.forEach((c) => d[c].items.splice(idx, 1)));
+  }
+  function moveFaqItem(idx: number, delta: number) {
+    updateFaq((d) =>
+      CODES.forEach((c) => {
+        const arr = d[c].items;
+        const j = idx + delta;
+        if (j < 0 || j >= arr.length) return;
+        [arr[idx], arr[j]] = [arr[j], arr[idx]];
+      })
+    );
+  }
+  async function saveFaq() {
+    setFaqBusy(true);
+    setFaqMsg(null);
+    try {
+      const res = await fetch('/api/admin/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ section: 'faq', data: faq }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Save failed.');
+      setFaqMsg({ type: 'ok', text: okText(data.mode, 'FAQ saved.') });
+    } catch (e) {
+      setFaqMsg({ type: 'err', text: e instanceof Error ? e.message : 'Save failed.' });
+    }
+    setFaqBusy(false);
+  }
+
+  /* ── Reviews ─────────────────────────────────────────────── */
+  function updateReviews(mutate: (d: ReviewItem[]) => void) {
+    setReviews((prev) => {
+      const next = structuredClone(prev);
+      mutate(next);
+      return next;
+    });
+    setRevMsg(null);
+  }
+  async function saveReviews() {
+    setRevBusy(true);
+    setRevMsg(null);
+    try {
+      const res = await fetch('/api/admin/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ section: 'reviews', data: reviews }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Save failed.');
+      setRevMsg({ type: 'ok', text: okText(data.mode, 'Reviews saved.') });
+    } catch (e) {
+      setRevMsg({ type: 'err', text: e instanceof Error ? e.message : 'Save failed.' });
+    }
+    setRevBusy(false);
+  }
+
+  /* ── Gallery ─────────────────────────────────────────────── */
+  async function handleUpload(files: FileList | null) {
+    if (!files || files.length === 0) return;
+    setGalBusy(true);
+    setGalMsg(null);
+    let list = gallery;
+    let lastMode = mode;
+    try {
+      for (const file of Array.from(files)) {
+        const image = await processImage(file);
+        const res = await fetch('/api/admin/gallery', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'add', image, currentList: list }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Upload failed.');
+        list = data.gallery;
+        lastMode = data.mode;
+        setGallery(list);
+      }
+      setGalMsg({ type: 'ok', text: okText(lastMode, `${files.length} image(s) added.`) });
+    } catch (e) {
+      setGalMsg({ type: 'err', text: e instanceof Error ? e.message : 'Upload failed.' });
+    }
+    setGalBusy(false);
+  }
+  async function deleteImage(path: string) {
+    setGalBusy(true);
+    setGalMsg(null);
+    try {
+      const res = await fetch('/api/admin/gallery', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete', path, currentList: gallery }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Delete failed.');
+      setGallery(data.gallery);
+      setGalMsg({ type: 'ok', text: okText(data.mode, 'Image removed.') });
+    } catch (e) {
+      setGalMsg({ type: 'err', text: e instanceof Error ? e.message : 'Delete failed.' });
+    }
+    setGalBusy(false);
+  }
+
+  const curFaq = faq[faqLang];
+  const faqDir = faqLang === 'he' ? 'rtl' : 'ltr';
 
   return (
     <div className={styles.shell}>
@@ -111,174 +186,290 @@ export default function AdminEditor({
             {mode === 'github' ? 'GitHub · auto-deploy' : 'Local files'}
           </span>
         </div>
-        <div className={styles.actions}>
-          <button className={styles.btnGhost} onClick={logout}>Log out</button>
-          <button className={styles.btnPrimary} onClick={save} disabled={busy}>
-            {busy ? 'Saving…' : 'Save changes'}
-          </button>
-        </div>
+        <button className={styles.btnGhost} onClick={logout}>Log out</button>
       </header>
 
       <div className={styles.body}>
-        {msg && (
-          <div className={msg.type === 'ok' ? styles.msgOk : styles.msgErr}>{msg.text}</div>
-        )}
-
-        <p className={styles.hint}>
-          Add, remove and reorder items once — those changes apply to all three
-          languages. Text fields are edited per language using the tabs below.
-        </p>
-
-        <div className={styles.tabs}>
-          {LANGS.map((l) => (
-            <button
-              key={l.code}
-              className={`${styles.tab} ${lang === l.code ? styles.tabOn : ''}`}
-              onClick={() => setLang(l.code)}
-            >
-              {l.label}
-            </button>
-          ))}
+        <div className={styles.mainTabs}>
+          <button
+            className={`${styles.mainTab} ${tab === 'qa' ? styles.mainTabOn : ''}`}
+            onClick={() => setTab('qa')}
+          >
+            Q&amp;A
+          </button>
+          <button
+            className={`${styles.mainTab} ${tab === 'reviews' ? styles.mainTabOn : ''}`}
+            onClick={() => setTab('reviews')}
+          >
+            Reviews
+          </button>
+          <button
+            className={`${styles.mainTab} ${tab === 'gallery' ? styles.mainTabOn : ''}`}
+            onClick={() => setTab('gallery')}
+          >
+            Gallery
+          </button>
         </div>
 
-        {/* ── REVIEWS ──────────────────────────────────────────── */}
-        <section className={styles.panel} dir={dir}>
-          <h2 className={styles.panelTitle}>{cur.reviews.title || 'Reviews'}</h2>
+        {/* ════════════ Q&A ════════════ */}
+        {tab === 'qa' && (
+          <>
+            <p className={styles.hint}>
+              Pick a language, then edit its questions. Adding, deleting or
+              reordering a question applies to all three languages at once.
+            </p>
+            <div className={styles.tabs}>
+              {LANGS.map((l) => (
+                <button
+                  key={l.code}
+                  className={`${styles.tab} ${faqLang === l.code ? styles.tabOn : ''}`}
+                  onClick={() => setFaqLang(l.code)}
+                >
+                  {l.label}
+                </button>
+              ))}
+            </div>
 
-          <div className={styles.metaGrid}>
-            <Field label="Section title">
-              <input
-                dir={dir}
-                value={cur.reviews.title}
-                onChange={(e) => update((d) => { d[lang].reviews.title = e.target.value; })}
-              />
-            </Field>
-            <Field label="Section subtitle">
-              <input
-                dir={dir}
-                value={cur.reviews.subtitle}
-                onChange={(e) => update((d) => { d[lang].reviews.subtitle = e.target.value; })}
-              />
-            </Field>
-          </div>
-
-          {cur.reviews.items.map((it, idx) => (
-            <div key={idx} className={styles.item}>
-              <ItemHead
-                index={idx}
-                count={cur.reviews.items.length}
-                onUp={() => moveItem('reviews', idx, -1)}
-                onDown={() => moveItem('reviews', idx, 1)}
-                onDelete={() => removeItem('reviews', idx)}
-              />
-              <div className={styles.rowTwo}>
-                <Field label="Guest name">
+            <section className={styles.panel} dir={faqDir}>
+              <div className={styles.metaGrid}>
+                <Field label="Section title">
                   <input
-                    dir={dir}
-                    value={it.name}
-                    onChange={(e) =>
-                      update((d) => { d[lang].reviews.items[idx].name = e.target.value; })
-                    }
+                    dir={faqDir}
+                    value={curFaq.title}
+                    onChange={(e) => updateFaq((d) => { d[faqLang].title = e.target.value; })}
                   />
                 </Field>
-                <Field label="Rating" small>
-                  <select
-                    value={it.rating}
-                    onChange={(e) =>
-                      update((d) => {
-                        d[lang].reviews.items[idx].rating = Number(e.target.value);
-                      })
-                    }
-                  >
-                    {[1, 2, 3, 4, 5].map((n) => (
-                      <option key={n} value={n}>{n} ★</option>
-                    ))}
-                  </select>
+                <Field label="Section subtitle">
+                  <input
+                    dir={faqDir}
+                    value={curFaq.subtitle}
+                    onChange={(e) => updateFaq((d) => { d[faqLang].subtitle = e.target.value; })}
+                  />
                 </Field>
               </div>
-              <Field label="Review text">
-                <textarea
-                  dir={dir}
-                  rows={3}
-                  value={it.text}
-                  onChange={(e) =>
-                    update((d) => { d[lang].reviews.items[idx].text = e.target.value; })
-                  }
-                />
-              </Field>
+
+              {curFaq.items.map((it, idx) => (
+                <div key={idx} className={styles.item}>
+                  <ItemHead
+                    index={idx}
+                    count={curFaq.items.length}
+                    onUp={() => moveFaqItem(idx, -1)}
+                    onDown={() => moveFaqItem(idx, 1)}
+                    onDelete={() => removeFaqItem(idx)}
+                  />
+                  <Field label="Question">
+                    <input
+                      dir={faqDir}
+                      value={it.q}
+                      onChange={(e) =>
+                        updateFaq((d) => { d[faqLang].items[idx].q = e.target.value; })
+                      }
+                    />
+                  </Field>
+                  <Field label="Answer">
+                    <textarea
+                      dir={faqDir}
+                      rows={3}
+                      value={it.a}
+                      onChange={(e) =>
+                        updateFaq((d) => { d[faqLang].items[idx].a = e.target.value; })
+                      }
+                    />
+                  </Field>
+                </div>
+              ))}
+
+              <button className={styles.addBtn} onClick={addFaqItem}>+ Add question</button>
+            </section>
+
+            {faqMsg && (
+              <div className={faqMsg.type === 'ok' ? styles.msgOk : styles.msgErr}>
+                {faqMsg.text}
+              </div>
+            )}
+            <div className={styles.saveBar}>
+              <button className={styles.btnPrimary} onClick={saveFaq} disabled={faqBusy}>
+                {faqBusy ? 'Saving…' : 'Save FAQ'}
+              </button>
             </div>
-          ))}
+          </>
+        )}
 
-          <button className={styles.addBtn} onClick={() => addItem('reviews')}>
-            + Add review
-          </button>
-        </section>
+        {/* ════════════ REVIEWS ════════════ */}
+        {tab === 'reviews' && (
+          <>
+            <p className={styles.hint}>
+              Reviews are shared across all languages — keep each review in the
+              language the guest wrote it. They are not translated.
+            </p>
 
-        {/* ── FAQ ──────────────────────────────────────────────── */}
-        <section className={styles.panel} dir={dir}>
-          <h2 className={styles.panelTitle}>{cur.faq.title || 'FAQ'}</h2>
+            <section className={styles.panel}>
+              {reviews.map((it, idx) => (
+                <div key={idx} className={styles.item}>
+                  <ItemHead
+                    index={idx}
+                    count={reviews.length}
+                    onUp={() =>
+                      updateReviews((d) => {
+                        if (idx > 0) [d[idx], d[idx - 1]] = [d[idx - 1], d[idx]];
+                      })
+                    }
+                    onDown={() =>
+                      updateReviews((d) => {
+                        if (idx < d.length - 1) [d[idx], d[idx + 1]] = [d[idx + 1], d[idx]];
+                      })
+                    }
+                    onDelete={() => updateReviews((d) => { d.splice(idx, 1); })}
+                  />
+                  <div className={styles.rowTwo}>
+                    <Field label="Guest name">
+                      <input
+                        dir="auto"
+                        value={it.name}
+                        onChange={(e) =>
+                          updateReviews((d) => { d[idx].name = e.target.value; })
+                        }
+                      />
+                    </Field>
+                    <Field label="Rating" small>
+                      <select
+                        value={it.rating}
+                        onChange={(e) =>
+                          updateReviews((d) => { d[idx].rating = Number(e.target.value); })
+                        }
+                      >
+                        {[1, 2, 3, 4, 5].map((n) => (
+                          <option key={n} value={n}>{n} ★</option>
+                        ))}
+                      </select>
+                    </Field>
+                  </div>
+                  <Field label="Review text">
+                    <textarea
+                      dir="auto"
+                      rows={3}
+                      value={it.text}
+                      onChange={(e) =>
+                        updateReviews((d) => { d[idx].text = e.target.value; })
+                      }
+                    />
+                  </Field>
+                </div>
+              ))}
 
-          <div className={styles.metaGrid}>
-            <Field label="Section title">
-              <input
-                dir={dir}
-                value={cur.faq.title}
-                onChange={(e) => update((d) => { d[lang].faq.title = e.target.value; })}
-              />
-            </Field>
-            <Field label="Section subtitle">
-              <input
-                dir={dir}
-                value={cur.faq.subtitle}
-                onChange={(e) => update((d) => { d[lang].faq.subtitle = e.target.value; })}
-              />
-            </Field>
-          </div>
+              <button
+                className={styles.addBtn}
+                onClick={() => updateReviews((d) => { d.push({ name: '', rating: 5, text: '' }); })}
+              >
+                + Add review
+              </button>
+            </section>
 
-          {cur.faq.items.map((it, idx) => (
-            <div key={idx} className={styles.item}>
-              <ItemHead
-                index={idx}
-                count={cur.faq.items.length}
-                onUp={() => moveItem('faq', idx, -1)}
-                onDown={() => moveItem('faq', idx, 1)}
-                onDelete={() => removeItem('faq', idx)}
-              />
-              <Field label="Question">
+            {revMsg && (
+              <div className={revMsg.type === 'ok' ? styles.msgOk : styles.msgErr}>
+                {revMsg.text}
+              </div>
+            )}
+            <div className={styles.saveBar}>
+              <button className={styles.btnPrimary} onClick={saveReviews} disabled={revBusy}>
+                {revBusy ? 'Saving…' : 'Save reviews'}
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* ════════════ GALLERY ════════════ */}
+        {tab === 'gallery' && (
+          <>
+            <p className={styles.hint}>
+              Gallery photos are shared across all languages. Adding or removing
+              an image is saved immediately. Uploaded photos are auto-resized for
+              the web. The first image is shown larger on the site.
+            </p>
+
+            <section className={styles.panel}>
+              <label className={`${styles.uploadLabel} ${galBusy ? styles.uploadBusy : ''}`}>
                 <input
-                  dir={dir}
-                  value={it.q}
-                  onChange={(e) =>
-                    update((d) => { d[lang].faq.items[idx].q = e.target.value; })
-                  }
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className={styles.uploadInput}
+                  disabled={galBusy}
+                  onChange={(e) => {
+                    handleUpload(e.target.files);
+                    e.target.value = '';
+                  }}
                 />
-              </Field>
-              <Field label="Answer">
-                <textarea
-                  dir={dir}
-                  rows={3}
-                  value={it.a}
-                  onChange={(e) =>
-                    update((d) => { d[lang].faq.items[idx].a = e.target.value; })
-                  }
-                />
-              </Field>
-            </div>
-          ))}
+                {galBusy ? 'Uploading…' : '+ Add image(s)'}
+              </label>
 
-          <button className={styles.addBtn} onClick={() => addItem('faq')}>
-            + Add question
-          </button>
-        </section>
+              {galMsg && (
+                <div
+                  className={galMsg.type === 'ok' ? styles.msgOk : styles.msgErr}
+                  style={{ marginTop: 14 }}
+                >
+                  {galMsg.text}
+                </div>
+              )}
 
-        <div className={styles.saveBar}>
-          <button className={styles.btnPrimary} onClick={save} disabled={busy}>
-            {busy ? 'Saving…' : 'Save changes'}
-          </button>
-        </div>
+              <p className={styles.galleryCount}>{gallery.length} photo(s)</p>
+
+              <div className={styles.galleryGrid}>
+                {gallery.map((src, idx) => (
+                  <div key={src} className={styles.galleryCard}>
+                    {idx === 0 && <span className={styles.galleryBadge}>Featured</span>}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={src} alt="" className={styles.galleryThumb} />
+                    <button
+                      className={styles.galleryDel}
+                      onClick={() => deleteImage(src)}
+                      disabled={galBusy}
+                      aria-label="Delete image"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </>
+        )}
       </div>
     </div>
   );
+}
+
+/* Resize an image client-side (max 2000px, JPEG) → base64 (no data: prefix). */
+function processImage(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      let { width, height } = img;
+      const longest = Math.max(width, height);
+      if (longest > MAX_IMAGE_PX) {
+        const scale = MAX_IMAGE_PX / longest;
+        width = Math.round(width * scale);
+        height = Math.round(height * scale);
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        reject(new Error('Image processing is not supported in this browser.'));
+        return;
+      }
+      ctx.drawImage(img, 0, 0, width, height);
+      resolve(canvas.toDataURL('image/jpeg', 0.85).split(',')[1]);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error('That file could not be read as an image.'));
+    };
+    img.src = url;
+  });
 }
 
 function Field({

@@ -1,6 +1,7 @@
 'use client';
 import { useI18n } from '@/lib/i18n';
 import { useReveal } from './_shared';
+import reviewsData from '@/data/reviews.json';
 import styles from './Reviews.module.css';
 
 function Stars({ n }: { n: number }) {
@@ -46,7 +47,7 @@ export default function Reviews() {
         </div>
 
         <div className={styles.grid}>
-          {t.reviews.items.map((r, i) => (
+          {reviewsData.map((r, i) => (
             <Card key={i} review={r} verified={t.labels.verifiedGuest} delay={i * 80} />
           ))}
         </div>

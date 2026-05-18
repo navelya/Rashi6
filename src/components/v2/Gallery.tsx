@@ -2,9 +2,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useI18n } from '@/lib/i18n';
 import { useReveal } from './_shared';
+import galleryData from '@/data/gallery.json';
 import styles from './Gallery.module.css';
 
-const IMAGES = Array.from({ length: 17 }, (_, i) => `/assets/images/gallery-${i + 1}.jpg`);
+const IMAGES: string[] = galleryData;
 const FALLBACK =
   'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23d8d2c6"/%3E%3C/svg%3E';
 

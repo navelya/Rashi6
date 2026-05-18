@@ -341,3 +341,107 @@
   width: 100%;
 }
 .input:focus { outline: none; border-color: #1f6f6b; background: #fff; }
+
+/* ---- Top-level tabs (Q&A / Reviews / Gallery) ---- */
+.mainTabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1.5px solid #e3e6ec;
+  margin-bottom: 20px;
+}
+.mainTab {
+  padding: 12px 18px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #6b7280;
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -1.5px;
+  transition: color 0.16s ease, border-color 0.16s ease;
+}
+.mainTab:hover { color: #1f6f6b; }
+.mainTabOn { color: #1f6f6b; border-bottom-color: #1f6f6b; }
+
+/* ---- Gallery ---- */
+.uploadLabel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 24px;
+  border-radius: 10px;
+  border: 1.5px dashed #c4cad3;
+  background: #f3f9f8;
+  color: #1f6f6b;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.16s ease, background 0.16s ease;
+}
+.uploadLabel:hover { border-color: #1f6f6b; }
+.uploadBusy { opacity: 0.6; cursor: progress; }
+.uploadInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.galleryCount {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #8b93a1;
+  margin: 18px 0 10px;
+}
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 560px) {
+  .galleryGrid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 800px) {
+  .galleryGrid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.galleryCard {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e3e6ec;
+  background: #f1f3f6;
+  aspect-ratio: 1;
+}
+.galleryThumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.galleryBadge {
+  position: absolute;
+  top: 8px;
+  inset-inline-start: 8px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: #1f6f6b;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.galleryDel {
+  position: absolute;
+  bottom: 8px;
+  inset-inline-end: 8px;
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(192, 57, 43, 0.92);
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+.galleryDel:hover:not(:disabled) { background: #c0392b; }
+.galleryDel:disabled { opacity: 0.5; cursor: not-allowed; }

@@ -109,29 +109,7 @@
   },
   "reviews": {
     "title": "Ce Que Disent Nos Hôtes",
-    "subtitle": "De vraies expériences d'hôtes satisfaits",
-    "items": [
-      {
-        "name": "Michal L.",
-        "rating": 5,
-        "text": "Une villa incroyable ! Le jacuzzi était un rêve, le jardin est immense et privé. Les meilleures vacances en famille. On reviendra !"
-      },
-      {
-        "name": "David A.",
-        "rating": 5,
-        "text": "Une propriété de luxe haut de gamme. Les 4 chambres ont accueilli toute la famille en tout confort. Emplacement idéal, proche de la plage."
-      },
-      {
-        "name": "Nathalie B.",
-        "rating": 5,
-        "text": "Une villa magnifique avec jacuzzi privé et grand jardin. Nous avons adoré chaque instant. On reviendra !"
-      },
-      {
-        "name": "Rachel V.",
-        "rating": 5,
-        "text": "Calme, intimité et confort. La villa est grande, belle et bien équipée. Je recommande vivement !"
-      }
-    ]
+    "subtitle": "De vraies expériences d'hôtes satisfaits"
   },
   "faq": {
     "title": "Questions Fréquentes",
