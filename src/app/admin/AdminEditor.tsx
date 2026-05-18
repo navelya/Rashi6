@@ -13,6 +13,16 @@ const MAX_IMAGE_PX = 2000;
 
 type Tab = 'qa' | 'reviews' | 'gallery';
 type Msg = { type: 'ok' | 'err'; text: string } | null;
+type Diag = {
+  repo: string;
+  branch: string;
+  tokenSet: boolean;
+  repoStatus?: number | string;
+  branchStatus?: number | string;
+  defaultBranch?: string;
+  ok: boolean;
+  verdict: string;
+};
 
 export default function AdminEditor({
   faq: initialFaq,
@@ -40,6 +50,9 @@ export default function AdminEditor({
   const [galBusy, setGalBusy] = useState(false);
   const [galMsg, setGalMsg] = useState<Msg>(null);
 
+  const [diag, setDiag] = useState<Diag | null>(null);
+  const [diagBusy, setDiagBusy] = useState(false);
+
   useEffect(() => {
     const prev = document.body.style.background;
     document.body.style.background = '#eef0f3';
@@ -55,6 +68,18 @@ export default function AdminEditor({
   async function logout() {
     await fetch('/api/admin/logout', { method: 'POST' });
     window.location.reload();
+  }
+
+  async function runDiagnose() {
+    setDiagBusy(true);
+    setDiag(null);
+    try {
+      const res = await fetch('/api/admin/diagnose');
+      setDiag(await res.json());
+    } catch {
+      setDiag({ repo: '', branch: '', tokenSet: false, ok: false, verdict: 'Could not run the check.' });
+    }
+    setDiagBusy(false);
   }
 
   /* ── FAQ ─────────────────────────────────────────────────── */
@@ -186,10 +211,30 @@ export default function AdminEditor({
             {mode === 'github' ? 'GitHub · auto-deploy' : 'Local files'}
           </span>
         </div>
-        <button className={styles.btnGhost} onClick={logout}>Log out</button>
+        <div className={styles.actions}>
+          <button className={styles.btnGhost} onClick={runDiagnose} disabled={diagBusy}>
+            {diagBusy ? 'Checking…' : 'Check GitHub'}
+          </button>
+          <button className={styles.btnGhost} onClick={logout}>Log out</button>
+        </div>
       </header>
 
       <div className={styles.body}>
+        {diag && (
+          <div
+            className={diag.ok ? styles.msgOk : styles.msgErr}
+            style={{ marginBottom: 18 }}
+          >
+            <strong>{diag.verdict}</strong>
+            <div className={styles.diagDetails}>
+              GITHUB_REPO: {diag.repo} &nbsp;·&nbsp; GITHUB_BRANCH: {diag.branch}
+              {diag.repoStatus !== undefined && <> &nbsp;·&nbsp; repo check: {diag.repoStatus}</>}
+              {diag.branchStatus !== undefined && <> &nbsp;·&nbsp; branch check: {diag.branchStatus}</>}
+              {diag.defaultBranch && <> &nbsp;·&nbsp; default branch: {diag.defaultBranch}</>}
+            </div>
+          </div>
+        )}
+
         <div className={styles.mainTabs}>
           <button
             className={`${styles.mainTab} ${tab === 'qa' ? styles.mainTabOn : ''}`}

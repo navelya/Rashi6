@@ -445,3 +445,13 @@
 }
 .galleryDel:hover:not(:disabled) { background: #c0392b; }
 .galleryDel:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---- GitHub diagnostic ---- */
+.diagDetails {
+  margin-top: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.76rem;
+  font-weight: 500;
+  opacity: 0.85;
+  word-break: break-word;
+}
