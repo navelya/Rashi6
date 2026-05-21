@@ -85,9 +85,9 @@ export function FacebookIcon({ size = 18 }: { size?: number }) {
    profile URLs. (WhatsApp is wired separately via WA_PHONE.)
    ────────────────────────────────────────────────────────────── */
 export const SOCIALS: { name: string; href: string; Icon: ComponentType<{ size?: number }> }[] = [
-  { name: 'Instagram', href: 'https://instagram.com/REPLACE_ME', Icon: InstagramIcon },
-  { name: 'TikTok', href: 'https://tiktok.com/@REPLACE_ME', Icon: TikTokIcon },
-  { name: 'Facebook', href: 'https://facebook.com/REPLACE_ME', Icon: FacebookIcon },
+  { name: 'Instagram', href: 'https://www.instagram.com/therashi6', Icon: InstagramIcon },
+  { name: 'TikTok', href: 'https://www.tiktok.com/@therashi63', Icon: TikTokIcon },
+  { name: 'Facebook', href: 'https://www.facebook.com/people/RASHI-6/61579278502603', Icon: FacebookIcon },
 ];
 
 /** Track whether the viewport is at desktop width (used by the calendar). */
